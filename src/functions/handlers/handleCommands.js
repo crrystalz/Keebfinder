@@ -1,3 +1,5 @@
+const { REST } = require("@discordjs/rest");
+const { Routes } = require("discord-api-types/v9");
 const fs = require("fs");
 
 module.exports = (client) => {
@@ -12,9 +14,27 @@ module.exports = (client) => {
       for (const file of commandFiles) {
         const command = require(`../../commands/${folder}/${file}`);
         commands.set(command.data.name, command);
-        commandArray.push(command, command.data.toJSON());
-        console.log(`Command: ${command.data.name} has passed through the handler`);
+        commandArray.push(command.data.toJSON());
+        console.log(
+          `Command: ${command.data.name} has passed through the handler`
+        );
       }
+    }
+
+    const clientId = `1002263615065292900`;
+    // const guildID = `972281526429564938`;
+    const rest = new REST({ version: "9" }).setToken(process.env.token);
+    // console.log(client.commandArray)
+    try {
+      console.log("Started refreshing application (/) commands.");
+
+      await rest.put(Routes.applicationCommands(clientId), {
+        body: client.commandArray,
+      });
+
+      console.log("Successfully refreshed application (/) commands.");
+    } catch (error) {
+      console.error(error);
     }
   };
 };
