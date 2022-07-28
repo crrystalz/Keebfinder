@@ -8,7 +8,7 @@ module.exports = {
       if (!command) return;
 
       try {
-        await command.execise(interaction, client);
+        await command.execute(interaction, client);
       } catch (error) {
         console.error(error);
         await interaction.reply({

@@ -5,7 +5,7 @@ module.exports = {
     .setName("ping")
     .setDescription("Returns with ping!"),
 
-  async execute(interaction) {
+  async execute(interaction, client) {
     const message = await interaction.deferReply({
       fetchReply: true,
     });
@@ -14,7 +14,7 @@ module.exports = {
       message.createdTimestamp - interaction.createdTimestamp
     }`;
     await interaction.editReply({
-      contet: newMessage,
+      content: newMessage,
     });
   },
 };
